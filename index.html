@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Disposable Energy</title>
+<meta name="description" content="Disposable Energy: how much energy people can buy with their take-home pay. A living, open metric of the input to the economic flywheel.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="hero">
+  <div class="container">
+    <h1>Disposable <span>Energy</span></h1>
+    <p class="tagline">How much energy people can buy with their take-home pay. Life requires energy. Less affordable energy, less life.</p>
+  </div>
+</header>
+
+<section id="now">
+  <div class="container">
+    <div class="year" id="month">Latest month</div>
+    <h2>Disposable Energy <span>Now</span></h2>
+    <div class="reading">
+      <div class="big" id="de-now">&mdash;</div>
+      <div class="sub">change from 1986 in the gallons of gasoline a week's take-home pay buys</div>
+    </div>
+    <div class="grid">
+      <div class="card"><h3>A week's take-home pay buys</h3><p class="num" id="gal-now">&mdash;</p><p id="gal-1986">gallons</p></div>
+      <div class="card"><h3>A year ago</h3><p class="num" id="de-year">&mdash;</p><p>same measure, 12 months earlier</p></div>
+      <div class="card"><h3>Peak and low</h3><p class="num" id="de-peak">&mdash;</p><p id="de-low">&nbsp;</p></div>
+    </div>
+    <figure>
+      <img src="analysis/output/disposable_energy_monthly.png" alt="Disposable Energy by month since 1990: take-home pay, pay before tax, and per-capita income, 1986 = 0">
+      <figcaption>Updated monthly from public BLS and BEA data via FRED. Take-home pay (dark blue) is the headline; light blue is the same pay before tax; per-capita income (red) includes government transfers.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section id="what">
+  <div class="container">
+    <h2>What It <span>Measures</span></h2>
+    <p class="lead">GDP measures the speed of the economic flywheel. Disposable Energy measures its input: labor applying affordable energy. Because the flywheel has momentum, a loss of Disposable Energy shows up in jobs and output only after a delay.</p>
+    <pre class="formula">take-home pay  = average weekly earnings &times; (1 &minus; income and payroll tax rate)
+gallons(month) = take-home pay / retail gasoline price
+DE(month)      = gallons(month) / gallons(1986) &minus; 1        (1986 = 0)</pre>
+    <p><strong>Actual dollars, no inflation index.</strong> Wages and gas prices are both in the dollars of the same month, so inflation cancels in the ratio. The number moves only when one outruns the other. No choice of price index, no adjustment to argue over.</p>
+    <p><strong>Take-home pay, not GDP.</strong> The headline starts from BLS average weekly earnings of production and nonsupervisory workers &mdash; pay from work &mdash; and subtracts the average rate of personal income tax and employee payroll tax (BEA). Income measures that include government transfers count money printing as if it were earned.</p>
+  </div>
+</section>
+
+<section id="record">
+  <div class="container">
+    <h2>What the <span>Record Shows</span></h2>
+    <ul>
+      <li><strong>Gasoline prices lead unemployment by 16&ndash;24 months</strong>, strongest at 18 months (monthly, 1977&ndash;2019, r = 0.33).</li>
+      <li><strong>A change in Disposable Energy leads real GDP growth by one year.</strong> Take-home pay is the strongest of five income measures tested (r = 0.44, 1961&ndash;2007).</li>
+      <li><strong>Workers' Disposable Energy has been below 1986 in most years since 2000.</strong> A week's take-home pay bought more gasoline in 1973 than in 2008, 2012, or 2022.</li>
+    </ul>
+    <figure>
+      <img src="analysis/output/disposable_energy.png" alt="Disposable Energy by year, five income measures, 1986 = 0">
+      <figcaption>Annual Disposable Energy, five income measures. Take-home pay (dark blue) is the headline.</figcaption>
+    </figure>
+    <p>Current analysis: <a href="analysis/DIESEL-2026.md">Record Diesel, Disposable Energy, and Unemployment &mdash; October 2026</a>.</p>
+  </div>
+</section>
+
+<section id="review">
+  <div class="container">
+    <h2>Open for <span>Review</span></h2>
+    <p class="lead">This is a first, reproducible attempt, not finished science. The correlations are modest. We invite economists, energy researchers, and students to check the method, break it, and improve it.</p>
+    <p>Method, data, code, and open questions: <a href="https://github.com/JPods/disposableenergy" target="_blank">github.com/JPods/disposableenergy</a>. Every number on this page is regenerated from public data by one script.</p>
+    <p>Bill James &middot; <a href="mailto:bill.james@jpods.com">bill.james@jpods.com</a></p>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <p><a href="https://www.mercantilemonopoly.com">MercantileMonopoly.com</a> &middot; <a href="https://www.jpods.com">JPods.com</a> &middot; Data: BLS, BEA, EIA via FRED &middot; <span id="generated"></span></p>
+  </div>
+</footer>
+
+<script>
+(async () => {
+  try {
+    const c = await (await fetch('analysis/output/current.json', {cache: 'no-store'})).json();
+    const w = c.values.DE_take_home, i = c.inputs;
+    const sign = v => (v > 0 ? '+' : '') + v.toFixed(2);
+    const month = m => new Date(m + '-15').toLocaleDateString('en-US', {month: 'long', year: 'numeric'});
+    document.getElementById('month').textContent = month(c.month);
+    document.getElementById('de-now').textContent = sign(w.now);
+    document.getElementById('gal-now').textContent = i.gallons_per_week_of_pay.toFixed(0) + ' gal';
+    document.getElementById('gal-1986').textContent = 'vs ' + i.gallons_per_week_1986.toFixed(0) + ' in 1986 ($' + i.take_home_weekly_usd.toFixed(0) + ' at $' + i.gas_price_usd_gal.toFixed(2) + '/gal)';
+    document.getElementById('de-year').textContent = w.year_ago === null ? '—' : sign(w.year_ago);
+    document.getElementById('de-peak').textContent = sign(w.peak.value) + ' (' + month(w.peak.month) + ')';
+    document.getElementById('de-low').textContent = 'low ' + sign(w.low.value) + ' (' + month(w.low.month) + ')';
+    document.getElementById('generated').textContent = 'updated ' + c.generated_utc.slice(0, 10);
+  } catch (e) {
+    document.getElementById('de-now').textContent = 'see chart';
+  }
+})();
+</script>
+</body>
+</html>

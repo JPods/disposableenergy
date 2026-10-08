@@ -1,0 +1,26 @@
+name: Monthly update
+on:
+  schedule:
+    - cron: "0 14 12 * *"   # 12th of each month, 14:00 UTC — after the BLS jobs report and BEA income release
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - run: pip install -r analysis/requirements.txt
+      - run: python3 disposable_energy.py --refresh
+        working-directory: analysis
+      - run: python3 diesel_check.py --refresh
+        working-directory: analysis
+      - run: |
+          git config user.name "disposableenergy-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add analysis/data/raw analysis/output
+          git diff --cached --quiet || git commit -m "Monthly update $(date -u +%Y-%m)"
+          git push

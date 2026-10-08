@@ -1,0 +1,82 @@
+{
+  "spr_million_bbl": {
+    "latest": {
+      "date": "2026-09-25",
+      "value": 283.8
+    },
+    "peak": {
+      "date": "2010-01-01",
+      "value": 726.6
+    },
+    "last_this_low_before_2026": "1982-10-22",
+    "change_in_2026": -129.7
+  },
+  "production_mb_d": {
+    "latest": {
+      "date": "2026-09-25",
+      "value": 13.96
+    },
+    "record": {
+      "date": "2026-09-25",
+      "value": 13.96
+    }
+  },
+  "drilling_index_2017_100": {
+    "2014-10-01": 189.4,
+    "2019-01-01": 137.5,
+    "2020-08-01": 48.1,
+    "2022-12-01": 118.8,
+    "2025-12-01": 100.0,
+    "2026-08-01": 105.3
+  },
+  "duc_wells_eia_dpr_regions": {
+    "peak": {
+      "date": "2020-06-01",
+      "value": 8894
+    },
+    "latest_published": {
+      "date": "2024-04-01",
+      "value": 4510
+    },
+    "note": "EIA stopped publishing the DUC series after April 2024"
+  },
+  "distillate_reported": {
+    "stocks_million_bbl": {
+      "date": "2026-09-25",
+      "value": 105.2,
+      "lowest_for_this_week_since": 1982,
+      "lowest_5_this_week": {
+        "2026": 105.2,
+        "2022": 110.9,
+        "1996": 111.0,
+        "2000": 114.2,
+        "1985": 115.2
+      }
+    },
+    "days_of_supply": {
+      "value": 27.9,
+      "lowest_5_this_week_since_1991": {
+        "2026": 27.9,
+        "2022": 29.9,
+        "2000": 29.9,
+        "2023": 30.6,
+        "2008": 32.3
+      }
+    },
+    "usable_cushion_days_rule_of_thumb": {
+      "floor_days": [
+        19,
+        20
+      ],
+      "cushion_days": [
+        7.9,
+        8.9
+      ],
+      "share_of_365_day_cycle_pct": [
+        2.2,
+        2.4
+      ]
+    },
+    "note": "Reported stocks include pipeline fill and minimum operating inventory that cannot be withdrawn; usable inventory = reported - operational floor (floor not published)."
+  }
+}
